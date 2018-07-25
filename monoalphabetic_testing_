@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jul 25 07:57:04 2018
+
+@author: stemoutreach
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul 24 08:29:21 2018
+
+@author: stemoutreach
+"""
+
+import os
+os.chdir("/Users/stemoutreach/monoalpha/")
+#handler=open("tom_sawyer.txt", 'r')
+#handler=open("test_text.txt", 'r')
+#handler=open("english.txt", 'r')
+handler=open("problem3.txt", 'r')
+text = handler.read()
+handler=open("words_alpha.txt", 'r')
+dic = handler.read()
+word_list = dic.rstrip().split("\n")
+handler=open("key.txt", 'r')
+key = handler.read()
+word_list = key.rstrip().split()
+
+alpha_low = ['a','b','c','d','e','f','g',
+             'h','i','j','k','l','m','n',
+             'o','p','q','r','s','t','u',
+             'v','w','x','y','z']
+
+alpha_cap = ['A','B','C','D','E','F','G',
+             'H','I','J','K','L','M','N',
+             'O','P','Q','R','S','T','U',
+             'V','W','X','Y','Z']
+
+#a_upper   = ['E','T','A','I','O','H','N',
+#             'S','R','D','L','U','W','Y',
+#             'C','M','G','K','F','P','B',
+#             'V','Q','X','J','Z']
+    
+#a_lower   = ['e','t','a','i','o','h','n',
+#             's','r','d','l','u','w','y',
+#             'c','m','g','k','f','p','b',
+#             'v','q','x','j','z']
+   
+#a_upper   = ['E','T','A','O','I','N','S',
+#             'H','R','D','L','C','U','M',
+#             'W','F','G','Y','P','B','V',
+#             'K','J','X','Q','Z']
+    
+#a_lower   = ['e','t','a','o','i','n','s',
+#             'h','r','d','l','c','u','m',
+#             'w','f','g','y','p','b','v',
+#             'k','j','x','q','z']
+    
+
+
+
+
+def let_cnt(t, a_one,a_two):
+    char_cnt = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    for char in t:
+            for i in range(len(a_one)):
+                if(char == a_one[i]):
+                    char_cnt[i] += 1
+            for i in range(len(a_two)):
+                if(char == a_two[i]):
+                    char_cnt[i] += 1 
+        
+    return char_cnt                
+                    
+def sort_lower(c,a_one):
+    fake = []
+    new_freq_low = []
+    for i in range(len(a_one)):
+        m=c[0]
+        ao=a_one[0]
+        for j in range(len(a_one)-1):
+            if(c[j+1] > m):
+                m = c[j+1]
+                ao = a_one[j+1]               
+        c.remove(m)
+        a_one.remove(ao)
+        fake.append(m)
+        new_freq_low.append(ao)
+    return new_freq_low                  
+
+def sort_upper(c,a_two):
+    fake = []
+    new_freq_cap = []
+    for i in range(len(c)):
+        m=c[0]
+        at=a_two[0]
+        for j in range(len(c)-1):
+            if(c[j+1] > m):
+                m = c[j+1]
+                at = a_two[j+1]               
+        c.remove(m)
+        a_two.remove(at)
+        fake.append(m)
+        new_freq_cap.append(at)
+        
+    return new_freq_cap  
+
+
+                    
+def letter_switch(a_one, a_two, t, d_one, d_two):
+    new_text = []
+    for char in t:
+        for i in range(len(a_one)):
+            if(char == a_one[i]):
+                new_text.append(d_one[i])
+                break
+            elif(char == a_two[i]):
+                new_text.append(d_two[i])
+                break
+        else:
+            new_text.append(char)
+                
+    new_text = ''.join(new_text) 
+    return new_text
+
+a_upper = key
+a_lower = key
+a_lower = a_lower.lower()
+
+x = let_cnt(text,
+            alpha_low,
+            alpha_cap)
+y = let_cnt(text,
+            alpha_low,
+            alpha_cap)
+
+sort_alpha_low = sort_lower(x,
+                            alpha_low)
+sort_alpha_cap = sort_upper(y,
+                            alpha_cap)
+
+
+print(letter_switch(sort_alpha_low,
+                    sort_alpha_cap,
+                    text,
+                    a_lower,
+                    a_upper))     
+                
